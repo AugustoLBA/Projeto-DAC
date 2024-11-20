@@ -38,4 +38,7 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "type_user")
     private TypeUser type;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Adress adress;
 }
