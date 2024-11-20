@@ -13,7 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "adresses")
+@Table(name = "tb_adresses")
 public class Adress implements Serializable {
 
     @Id
@@ -48,4 +48,8 @@ public class Adress implements Serializable {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToOne
+    @JoinColumn(name = "library_id")
+    private Library library;
 }

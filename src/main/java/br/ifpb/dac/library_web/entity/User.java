@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "users")
+@Table(name = "tb_users")
 public class User implements Serializable {
 
     @Id
