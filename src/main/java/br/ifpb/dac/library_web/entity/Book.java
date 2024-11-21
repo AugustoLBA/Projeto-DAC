@@ -6,9 +6,27 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Essa classe representa um Livro
+ *
+ * Relacionamentos:
+ *
+ * Book e Author = @ManyToMany indica que existe um relacionamento muitos-para-muitos entre as entidades
+ * joinColumns = @JoinColumn(name = "book_id") Especifica a coluna na tabela de junção que faz referência à entidade Book,a coluna book_id será usada para associar os registros de Book à tabela de junção.
+ * inverseJoinColumns = @JoinColumn(name = "author_id")Define a coluna na tabela de junção que faz referência à entidade Author.
+ * A coluna author_id conectará os registros de Author à tabela de junção.
+ * Set<Author> authors  Essa coleção representa os autores associados a um livro.
+ * @JoinColumn(name = "publisher_id")  Define a coluna da chave estrangeira na tabela Book
+ *
+ * Book e Publisher = @ManyToOne indica que muitos livros podem ter o mesmo editor (publisher), mas cada livro pertence a apenas um editor.
+ * Livro com exemplar = @OneToMany define que um livro pode ter várias cópias.
+ * O atributo mappedBy = "book" indica que o relacionamento é mapeado pela propriedade book na entidade Copy.
+ * O cascade = CascadeType.ALL propaga operações (persistência, remoção, etc.) realizadas na entidade Book para as entidades relacionadas.
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -47,7 +65,7 @@ public class Book implements Serializable {
     private Integer numberPages;
 
     @ManyToOne
-    @JoinColumn(name = "publisher_id")  // Define a coluna da chave estrangeira na tabela Book
+    @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 
 
@@ -55,6 +73,9 @@ public class Book implements Serializable {
     @JoinTable(name = "book_author",  // Nome da tabela de junção
             joinColumns = @JoinColumn(name = "book_id"),  // Coluna que faz referência à tabela Book
             inverseJoinColumns = @JoinColumn(name = "author_id"))  // Coluna que faz referência à tabela Author
-    private Set<Author> authors;
+        private Set<Author> authors;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Exemplary> copies;
 
 }
