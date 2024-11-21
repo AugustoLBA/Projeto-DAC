@@ -18,7 +18,7 @@ public class Library implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @NotBlank(message = "The name cannot be empty")
     @Column(name = "name")
