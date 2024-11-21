@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -49,5 +50,11 @@ public class Book implements Serializable {
     @JoinColumn(name = "publisher_id")  // Define a coluna da chave estrangeira na tabela Book
     private Publisher publisher;
 
+
+    @ManyToMany
+    @JoinTable(name = "book_author",  // Nome da tabela de junção
+            joinColumns = @JoinColumn(name = "book_id"),  // Coluna que faz referência à tabela Book
+            inverseJoinColumns = @JoinColumn(name = "author_id"))  // Coluna que faz referência à tabela Author
+    private Set<Author> authors;
 
 }
