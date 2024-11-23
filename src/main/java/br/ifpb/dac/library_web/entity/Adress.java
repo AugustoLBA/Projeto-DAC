@@ -45,11 +45,11 @@ public class Adress implements Serializable {
     @Column(name = "country")
     private String country;
 
-    @OneToOne
+    @OneToOne(optional = true)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
+    @OneToOne(optional = true)
     @JoinColumn(name = "library_id")
     private Library library;
 }
