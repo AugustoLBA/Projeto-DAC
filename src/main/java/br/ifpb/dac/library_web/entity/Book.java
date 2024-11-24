@@ -33,7 +33,7 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "books")
+@Table(name = "tb_books")
 public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -53,7 +53,7 @@ public class Book implements Serializable {
     private Integer yearPublication;
 
     @ElementCollection
-    @CollectionTable(name = "chapters", joinColumns = @JoinColumn(name = "book_id"))
+    @CollectionTable(name = "tb_chapters", joinColumns = @JoinColumn(name = "book_id"))
     @NotBlank(message = "The title field cannot be empty")
     @MapKeyColumn(name = "title") // Define o nome da coluna que vai armazenar as chaves do mapa
     @NotNull(message = "The number chapters field cannot be empty")
@@ -70,7 +70,7 @@ public class Book implements Serializable {
 
 
     @ManyToMany
-    @JoinTable(name = "book_author",  // Nome da tabela de junção
+    @JoinTable(name = "tb_book_author",  // Nome da tabela de junção
             joinColumns = @JoinColumn(name = "book_id"),  // Coluna que faz referência à tabela Book
             inverseJoinColumns = @JoinColumn(name = "author_id"))  // Coluna que faz referência à tabela Author
         private Set<Author> authors;
