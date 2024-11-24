@@ -28,6 +28,9 @@ public class Library implements Serializable {
     @OneToOne(mappedBy = "library", cascade = CascadeType.ALL)
     private Adress adress;
 
+    @OneToOne(mappedBy = "library",cascade = CascadeType.ALL)
+    private Contract contract;
+
 
 
 }
