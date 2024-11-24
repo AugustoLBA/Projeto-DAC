@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Exemplar= Exemplary
@@ -37,4 +38,6 @@ public class Exemplary implements Serializable {
     @JoinColumn(name = "book_id")
     private Book book;
 
+    @OneToMany(mappedBy = "exemplary", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Survey> surveys; // Lista de vistorias associadas
 }
