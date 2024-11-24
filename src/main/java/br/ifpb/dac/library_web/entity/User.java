@@ -41,4 +41,7 @@ public class User implements Serializable {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Adress adress;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Contract contract;
 }
