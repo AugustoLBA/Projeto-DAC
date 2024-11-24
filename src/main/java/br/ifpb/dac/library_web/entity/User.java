@@ -45,4 +45,7 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Loan> loans; // Lista de empréstimos associados
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Contract contract;
 }
