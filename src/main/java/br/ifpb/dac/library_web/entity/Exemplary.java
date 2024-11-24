@@ -40,4 +40,7 @@ public class Exemplary implements Serializable {
 
     @OneToMany(mappedBy = "exemplary", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Survey> surveys; // Lista de vistorias associadas
+
+    @OneToOne(mappedBy = "exemplary", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Loan loan;
 }
