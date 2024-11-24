@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -47,7 +48,7 @@ public class Contract implements Serializable {
     private Library library;
 
     @OneToMany(mappedBy = "contract")
-    private ContractClause clause;
+    private List<ContractClause> clause;
 
     @PrePersist
     public void prePersist() {
