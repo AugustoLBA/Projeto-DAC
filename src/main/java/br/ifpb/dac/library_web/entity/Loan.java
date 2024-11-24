@@ -32,7 +32,7 @@ public class Loan implements Serializable {
     private LocalDateTime loanInitialDate;
 
     @NotNull(message = "loan end date cannot be empty")
-    @Column(name = "loan_initial_date")
+    @Column(name = "loan_end_date")
     private LocalDateTime loanEndDate;
 
     @NotNull(message = "the loan_status field cannot be empty")
