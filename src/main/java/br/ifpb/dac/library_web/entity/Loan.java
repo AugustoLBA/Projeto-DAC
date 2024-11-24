@@ -46,4 +46,10 @@ public class Loan implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id") // Define a chave estrangeira para User
     private User user;
+
+    @PrePersist
+    public void prePersist() {
+        final LocalDateTime current = LocalDateTime.now();
+        loanInitialDate = current;
+    }
 }
