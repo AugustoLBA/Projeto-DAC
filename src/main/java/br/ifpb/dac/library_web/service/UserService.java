@@ -1,6 +1,7 @@
 package br.ifpb.dac.library_web.service;
 
 import br.ifpb.dac.library_web.entity.User;
+import br.ifpb.dac.library_web.exception.infra.MessageKeyEnum;
 import br.ifpb.dac.library_web.exception.ResourceNotFoundException;
 import br.ifpb.dac.library_web.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class UserService {
      */
     public User findUserById(Long id) {
         return userRepository.findById(id)                     //"Usuário não encontrado com ID"
-                .orElseThrow(()-> new ResourceNotFoundException("User not found with ID" + id));
+                .orElseThrow(()-> new ResourceNotFoundException(MessageKeyEnum.USER_NOT_FOUND_WITH_ID.getMessage(id)));
     }
 
     /**
@@ -50,7 +51,7 @@ public class UserService {
      */
     public void deleteUser(Long id) {
         if(!userRepository.existsById(id)) {
-            throw new ResourceNotFoundException("User not found with ID: " + id);
+            throw new ResourceNotFoundException(MessageKeyEnum.USER_NOT_FOUND_WITH_ID.getMessage(id));
         }
         userRepository.deleteById(id);
     }
@@ -63,7 +64,7 @@ public class UserService {
      */
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email)              //Usuário não encontrado com e-mail
-                .orElseThrow(()-> new ResourceNotFoundException("User not found with email: " + email));
+                .orElseThrow(()-> new ResourceNotFoundException(MessageKeyEnum.USER_NOT_FOUND_WITH_ID.getMessage(email)));
     }
 
 }
