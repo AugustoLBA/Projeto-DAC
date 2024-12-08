@@ -16,26 +16,53 @@ public class SurveyService {
 
     private final SurveyRepository surveyRepository;
 
-    public Survey save(Survey survey) {
+    /**
+     * saveSurvey: Metodo que realiza a criação de um Survey(Inspeção).
+     * @param survey
+     * @return
+     */
+    public Survey saveSurvey(Survey survey) {
         return surveyRepository.save(survey);
     }
 
-    public List<Survey> findAll() {
+    /**
+     * findSurveyAll: Retorna uma lista de todas as inspessoes.
+     * @return
+     */
+    public List<Survey> findSurveyAll () {
         return surveyRepository.findAll();
     }
 
-    public Survey findById(Long id) {
+    /**
+     * findSurveyById: retorna uma inspeção a partir de um ID.
+     * Lança um exceção personalizada caso a inspeção não seja encontrada.
+     * @param id
+     * @return
+     */
+    public Survey findSurveyById(Long id) {
         return surveyRepository.findById(id)
                 .orElseThrow(() -> new SurveyNotFoundException(MessageKeyEnum.SURVEY_NOT_FOUND_WITH_ID.getMessage(id)));
     }
 
-    public void deleteById(Long id) {
+    /**
+     * deleteSurveyById: Deleta uma inspeção a partir de um ID.
+     * @param id
+     */
+    public void deleteSurveyById(Long id) {
         if (!surveyRepository.existsById(id)) {
             throw new SurveyNotFoundException(MessageKeyEnum.SURVEY_NOT_FOUND_WITH_ID.getMessage(id));
         }
         surveyRepository.deleteById(id);
     }
-    public Survey update(Long id, Survey survey) {
+
+    /**
+     * updateSurvey recupera uma inspeção no Banco de Dados e atualiza seus dados.
+     * Lança um exceção personalizada caso a inspeção não seja encontrada.
+     * @param id
+     * @param survey
+     * @return
+     */
+    public Survey updateSurvey(Long id, Survey survey) {
         Survey existingSurvey = surveyRepository.findById(id)
                 .orElseThrow(() -> new SurveyNotFoundException(MessageKeyEnum.SURVEY_NOT_FOUND_WITH_ID.getMessage(id)));
         existingSurvey.setDate_performed(survey.getDate_performed());
