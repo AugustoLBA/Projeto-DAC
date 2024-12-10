@@ -13,7 +13,9 @@ public enum MessageKeyEnum {
     THE_EMAIL_CANNOT_BE_EMPTY("The e-mail cannot be empty"),
     THE_PASSWORD_CANNOT_BE_EMPTY("The password cannot be empty"),
     THE_TYPER_USER_CANNOT_BE_EMPTY("The typer user cannot be empty"),
-    THE_EMAIL_FORMAT_IS_INVALID("The e-mail format is invalid");
+    THE_EMAIL_FORMAT_IS_INVALID("The e-mail format is invalid"),
+    BOOK_NOT_FOUND_WITH_ID("Book not found with ID:"),
+    BOOK_NOT_FOUND_WITH_TITLE("Book not found with title:");
 
     private String message;
 
