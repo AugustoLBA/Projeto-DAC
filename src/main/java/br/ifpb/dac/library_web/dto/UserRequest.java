@@ -1,6 +1,7 @@
 package br.ifpb.dac.library_web.dto;
 
 import br.ifpb.dac.library_web.enumeration.TypeUser;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -30,5 +31,6 @@ public class UserRequest {
     @NotNull(message = "The type user cannot be empty")
     private TypeUser type;
 
+    @Valid
     private AdressRequest adress;
 }
