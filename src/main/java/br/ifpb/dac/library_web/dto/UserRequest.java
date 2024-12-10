@@ -1,25 +1,33 @@
 package br.ifpb.dac.library_web.dto;
 
 import br.ifpb.dac.library_web.enumeration.TypeUser;
-import br.ifpb.dac.library_web.exception.infra.LibraryWebRequiredField;
-import br.ifpb.dac.library_web.exception.infra.MessageKeyEnum;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserRequest {
-    @LibraryWebRequiredField(messageKey = MessageKeyEnum.THE_NAME_CANNOT_BE_EMPTY)
+
+    @NotBlank(message = "The name cannot be empty")
     private String name;
 
-    @LibraryWebRequiredField(messageKey = MessageKeyEnum.THE_EMAIL_CANNOT_BE_EMPTY)
+    @NotBlank(message = "The e-mail cannot be empty")
+    @Email(regexp = "^[a-z0-9.+-]+@[a-z0-9.-]+\\.[a-z]{2,}$", message = "Email with invalid format")
     private String email;
 
-    @LibraryWebRequiredField(messageKey = MessageKeyEnum.THE_PASSWORD_CANNOT_BE_EMPTY)
+    @NotBlank(message = "The password cannot be empty")
+    @Size(message = "Password with invalid format", max = 6, min = 6)
     private String password;
 
-    @LibraryWebRequiredField(messageKey = MessageKeyEnum.THE_TYPER_USER_CANNOT_BE_EMPTY)
+    @NotNull(message = "The type user cannot be empty")
     private TypeUser type;
 
     private AdressRequest adress;
