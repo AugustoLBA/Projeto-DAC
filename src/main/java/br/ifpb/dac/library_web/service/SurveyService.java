@@ -55,19 +55,4 @@ public class SurveyService {
         surveyRepository.deleteById(id);
     }
 
-    /**
-     * updateSurvey recupera uma inspeção no Banco de Dados e atualiza seus dados.
-     * Lança um exceção personalizada caso a inspeção não seja encontrada.
-     * @param id
-     * @param survey
-     * @return
-     */
-    public Survey updateSurvey(Long id, Survey survey) {
-        Survey existingSurvey = surveyRepository.findById(id)
-                .orElseThrow(() -> new SurveyNotFoundException(MessageKeyEnum.SURVEY_NOT_FOUND_WITH_ID.getMessage(id)));
-        existingSurvey.setDate_performed(survey.getDate_performed());
-        existingSurvey.setStatusSurvey(survey.getStatusSurvey());
-        existingSurvey.setExemplary(survey.getExemplary());
-        return surveyRepository.save(existingSurvey);
-    }
 }
