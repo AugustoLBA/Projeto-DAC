@@ -73,7 +73,7 @@ public class Book implements Serializable {
     @JoinTable(name = "tb_book_author",  // Nome da tabela de junção
             joinColumns = @JoinColumn(name = "book_id"),  // Coluna que faz referência à tabela Book
             inverseJoinColumns = @JoinColumn(name = "author_id"))  // Coluna que faz referência à tabela Author
-        private Set<Author> authors;
+        private List<Author> authors;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Exemplary> copies;
