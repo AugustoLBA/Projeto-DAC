@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 
 
 @RequiredArgsConstructor
@@ -41,10 +41,8 @@ public class BookService {
                 .orElseThrow(()->new ResourceNotFoundException(MessageKeyEnum.BOOK_NOT_FOUND_WITH_TITLE.getMessage(title)));
     }
 
-    public List<Book> findByAuthor(String author) {
-        return bookRepository.findByAuthor(author);
+    public List<Book> findBooksByAuthors(String authorName){
+        return bookRepository.findBooksByAuthors(authorName);
     }
-
-
 
 }
