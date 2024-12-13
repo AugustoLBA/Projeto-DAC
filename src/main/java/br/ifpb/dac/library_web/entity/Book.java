@@ -54,7 +54,6 @@ public class Book implements Serializable {
 
     @ElementCollection
     @CollectionTable(name = "tb_chapters", joinColumns = @JoinColumn(name = "book_id"))
-    @NotBlank(message = "The title field cannot be empty")
     @MapKeyColumn(name = "title") // Define o nome da coluna que vai armazenar as chaves do mapa
     @NotNull(message = "The number chapters field cannot be empty")
     @Column(name = "number_chapters") // Define o nome da coluna que vai armazenar os valores do mapa
@@ -64,12 +63,12 @@ public class Book implements Serializable {
     @Column(name = "number_pages")
     private Integer numberPages;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 
 
-    @ManyToMany
+    @ManyToMany//(cascade = CascadeType.PERSIST)coloca
     @JoinTable(name = "tb_book_author",  // Nome da tabela de junção
             joinColumns = @JoinColumn(name = "book_id"),  // Coluna que faz referência à tabela Book
             inverseJoinColumns = @JoinColumn(name = "author_id"))  // Coluna que faz referência à tabela Author
