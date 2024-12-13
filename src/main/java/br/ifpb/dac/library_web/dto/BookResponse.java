@@ -17,7 +17,7 @@ public class BookResponse {
     private String title;
     private String isbn;
     private Integer yearPublication;
-    private Integer numberPager;
+    private Integer numberPages;
     private String publisherName;
     private Map<String,Integer> chapters;
     private List<String> authorNames;
