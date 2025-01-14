@@ -1,58 +1,46 @@
 package br.ifpb.dac.library_web.controller;
 
-
-import br.ifpb.dac.library_web.dto.BookRequest;
-import br.ifpb.dac.library_web.dto.BookResponse;
-import br.ifpb.dac.library_web.mapper.BookMapper;
+import br.ifpb.dac.library_web.entity.Author;
+import br.ifpb.dac.library_web.entity.Publisher;
+import br.ifpb.dac.library_web.entity.Book;
+import br.ifpb.dac.library_web.service.AuthorService;
+import br.ifpb.dac.library_web.service.PublisherService;
 import br.ifpb.dac.library_web.service.BookService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.List;
 
+@Controller
 @RequiredArgsConstructor
-@RestController
-@RequestMapping("v1/book")
 public class BookController {
+
     private final BookService bookService;
+    private final AuthorService authorService;
+    private final PublisherService publisherService;
 
-    @PostMapping
-    public ResponseEntity<BookRequest> save(@Valid @RequestBody BookRequest bookRequest) {
-        bookService.save(BookMapper.toBook(bookRequest));
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    @GetMapping("/cadastrar-livro")
+    public String showBookForm(Model model) {
+        // Buscar todos os autores e editoras da base
+        List<Author> authors = authorService.getAllAuthors();
+        List<Publisher> publishers = publisherService.getAllPublishers();
+
+        // Criar um novo objeto Livro para preencher no formulário
+        model.addAttribute("book", new Book());
+        model.addAttribute("authors", authors);
+        model.addAttribute("publishers", publishers);
+
+        return "bookForm";  // O nome do seu template
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<BookResponse> findBookById(@PathVariable Long id) {
-        BookResponse bookResponse = BookMapper.toBookResponse(bookService.findById(id));
-        return ResponseEntity.status(HttpStatus.OK).body(bookResponse);
+    @PostMapping("/salvar-livro")
+    public String saveBook(@ModelAttribute("book") Book book) {
+        // Salvar o livro na base de dados (com autores e publisher já associados)
+        bookService.save(book);
+        return "redirect:/livros";  // Redireciona para a lista de livros ou uma página de confirmação
     }
-    @GetMapping("/{serch}")
-    public ResponseEntity<BookResponse> findBookByTitle(@RequestParam String title) {
-        BookResponse bookResponse = BookMapper.toBookResponse(bookService.findByTitle(title));
-        return ResponseEntity.status(HttpStatus.OK).body(bookResponse);
-    }
-
-    @GetMapping("/authors")
-    public ResponseEntity<List<BookResponse>> findAllBookByAuthor(@RequestParam String authors) {
-        return ResponseEntity.status(HttpStatus.OK).body(BookMapper.toListBookResponse(bookService.findBooksByAuthors(authors)));
-    }
-
-
-    @GetMapping
-    public ResponseEntity<List<BookResponse>> findAllBookBy() {
-        return ResponseEntity.status(HttpStatus.OK).body(BookMapper.toListBookResponse(bookService.findAllBooks()));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBookById(@PathVariable Long id) {
-        bookService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-
-
-
 }

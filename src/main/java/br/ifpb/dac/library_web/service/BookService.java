@@ -3,8 +3,11 @@ package br.ifpb.dac.library_web.service;
 import br.ifpb.dac.library_web.entity.Book;
 import br.ifpb.dac.library_web.exception.ResourceNotFoundException;
 import br.ifpb.dac.library_web.exception.infra.MessageKeyEnum;
+import br.ifpb.dac.library_web.mapper.BookMapper;
 import br.ifpb.dac.library_web.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,6 +46,11 @@ public class BookService {
 
     public List<Book> findBooksByAuthors(String authorName){
         return bookRepository.findBooksByAuthors(authorName);
+    }
+
+    // Método para buscar todos os livros com paginação
+    public Page<Book> findAllBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable);  // Converte Book para BookResponse
     }
 
 }

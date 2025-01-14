@@ -52,12 +52,7 @@ public class Book implements Serializable {
     @Column(name = "year_publication")
     private Integer yearPublication;
 
-    @ElementCollection
-    @CollectionTable(name = "tb_chapters", joinColumns = @JoinColumn(name = "book_id"))
-    @MapKeyColumn(name = "title") // Define o nome da coluna que vai armazenar as chaves do mapa
-    @NotNull(message = "The number chapters field cannot be empty")
-    @Column(name = "number_chapters") // Define o nome da coluna que vai armazenar os valores do mapa
-    private Map<String, Integer> chapters;
+
 
     @NotNull(message = "The field number pages cannot be empty")
     @Column(name = "number_pages")
