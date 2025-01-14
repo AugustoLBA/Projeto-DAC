@@ -25,11 +25,11 @@ public class BookMapper {
             book.setPublisher(publisher);
         }
 
-        if (request.getAuthorNames() != null) {
-            List<Author> authors = request.getAuthorNames().stream()
+        if (request.getAuthorIds() != null) {
+            List<Author> authors = request.getAuthorIds().stream()
                     .map(name -> {
                         Author author = new Author();
-                        author.setName(name);
+                        author.setName(author.getName());
                         return author;
                     })
                     .collect(Collectors.toList());
@@ -40,7 +40,7 @@ public class BookMapper {
     }
 
     public static BookResponse toBookResponse(Book book) {
-        PropertyMap<Book, BookResponse> props = new PropertyMap<Book, BookResponse>() {
+        /*PropertyMap<Book, BookResponse> props = new PropertyMap<Book, BookResponse>() {
             @Override
             protected void configure() {
                 map().setPublisherName(source.getPublisher() != null ? source.getPublisher().getName() : null);
@@ -49,10 +49,25 @@ public class BookMapper {
         };
         ModelMapper mapper = new ModelMapper();
         mapper.addMappings(props);
-        return mapper.map(book, BookResponse.class);
+        return mapper.map(book, BookResponse.class);*/
+
+        BookResponse bookResponse = new BookResponse();
+        bookResponse.setId(bookResponse.getId());
+        bookResponse.setTitle(book.getTitle());
+        bookResponse.setIsbn(book.getIsbn());
+        bookResponse.setChapters(book.getChapters());
+        bookResponse.setPublisherName(book.getPublisher().getName());
+        bookResponse.setYearPublication(book.getYearPublication());
+        bookResponse.setAuthorNames(book.getAuthors().stream().map(Author::getName).collect(Collectors.toList()));
+
+        return bookResponse;
+
+
+
     }
 
     public static List<BookResponse> toListBookResponse(List<Book> books) {
-        return books.stream().map(BookMapper::toBookResponse).collect(Collectors.toList());
+        return books.stream().map(book -> toBookResponse(book)).collect(Collectors.toList());
+
     }
 }

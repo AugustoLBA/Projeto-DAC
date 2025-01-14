@@ -3,6 +3,7 @@ package br.ifpb.dac.library_web.controller;
 
 import br.ifpb.dac.library_web.dto.BookRequest;
 import br.ifpb.dac.library_web.dto.BookResponse;
+import br.ifpb.dac.library_web.entity.Book;
 import br.ifpb.dac.library_web.mapper.BookMapper;
 import br.ifpb.dac.library_web.service.BookService;
 import jakarta.validation.Valid;
@@ -20,9 +21,9 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping
-    public ResponseEntity<BookRequest> save(@Valid @RequestBody BookRequest bookRequest) {
-        bookService.save(BookMapper.toBook(bookRequest));
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<BookResponse> save(@Valid @RequestBody BookRequest book) {
+        return ResponseEntity.status(HttpStatus.CREATED).
+                body(BookMapper.toBookResponse(bookService.save(BookMapper.toBook(book),book.getAuthorIds())));
     }
 
     @GetMapping("/{id}")
@@ -30,7 +31,7 @@ public class BookController {
         BookResponse bookResponse = BookMapper.toBookResponse(bookService.findById(id));
         return ResponseEntity.status(HttpStatus.OK).body(bookResponse);
     }
-    @GetMapping("/{serch}")
+    @GetMapping("/title")
     public ResponseEntity<BookResponse> findBookByTitle(@RequestParam String title) {
         BookResponse bookResponse = BookMapper.toBookResponse(bookService.findByTitle(title));
         return ResponseEntity.status(HttpStatus.OK).body(bookResponse);

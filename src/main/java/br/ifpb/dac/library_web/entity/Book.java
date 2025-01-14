@@ -68,7 +68,7 @@ public class Book implements Serializable {
     private Publisher publisher;
 
 
-    @ManyToMany//(cascade = CascadeType.PERSIST)coloca
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "tb_book_author",  // Nome da tabela de junção
             joinColumns = @JoinColumn(name = "book_id"),  // Coluna que faz referência à tabela Book
             inverseJoinColumns = @JoinColumn(name = "author_id"))  // Coluna que faz referência à tabela Author

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -29,6 +30,6 @@ public class Author implements Serializable {
     private String name;
 
     @ManyToMany(mappedBy = "authors")  // "mappedBy" faz referência ao atributo "authors" na classe Book
-    private Set<Book> books;
+    private List<Book> books;
 
 }

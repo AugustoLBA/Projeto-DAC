@@ -1,22 +1,41 @@
 package br.ifpb.dac.library_web.service;
 
+import br.ifpb.dac.library_web.dto.BookRequest;
+import br.ifpb.dac.library_web.entity.Author;
 import br.ifpb.dac.library_web.entity.Book;
 import br.ifpb.dac.library_web.exception.ResourceNotFoundException;
 import br.ifpb.dac.library_web.exception.infra.MessageKeyEnum;
+import br.ifpb.dac.library_web.mapper.BookMapper;
+import br.ifpb.dac.library_web.repository.AuthorRepository;
 import br.ifpb.dac.library_web.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Objects;
+import java.util.Optional;
 
 
 @RequiredArgsConstructor
 @Service
 public class BookService {
     private final BookRepository bookRepository;
+    private final AuthorService authorService;
+    private final AuthorRepository authorRepository;
 
-    public Book save(Book book) {
+    public Book save(Book book, List <Long> authorIds ) {
+
+        if (authorIds != null) {
+            if (authorIds.stream().anyMatch(Objects::isNull)) {
+                throw new ResourceNotFoundException("Author IDs list cannot contain null values.");
+            }
+        }
+        List<Author> authors = new ArrayList<>();
+        for (Long id : authorIds) {
+            authors.add(authorService.getByid(id));
+        }
+        book.setAuthors(authors);
         return bookRepository.save(book);
     }
 

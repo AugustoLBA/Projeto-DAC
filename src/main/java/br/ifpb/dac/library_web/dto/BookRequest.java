@@ -29,8 +29,9 @@ public class BookRequest {
     @NotBlank(message = "The PublisherName cannot be empty")
     private String publisherName;
 
+    @NotNull
     @Size(min = 1, message = "There must be at least one author")
-    private List<String> authorNames;
+    private List<Long> authorIds;
 
     @NotNull(message = "Chapters cannot be null")
     private Map<String,Integer> chapters;
