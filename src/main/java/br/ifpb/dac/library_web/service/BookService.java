@@ -48,9 +48,13 @@ public class BookService {
         return bookRepository.findBooksByAuthors(authorName);
     }
 
-    // Método para buscar todos os livros com paginação
-    public Page<Book> findAllBooks(Pageable pageable) {
-        return bookRepository.findAll(pageable);  // Converte Book para BookResponse
+    // Método para listar todos os livros com paginação
+    public Page<Book> getAllBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable);
     }
 
+    // Método para buscar livros por título com paginação
+    public Page<Book> searchBooksByTitle(String title, Pageable pageable) {
+        return bookRepository.findByTitleContainingIgnoreCase(title, pageable);
+    }
 }

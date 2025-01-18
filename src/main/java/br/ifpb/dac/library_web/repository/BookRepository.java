@@ -2,6 +2,8 @@ package br.ifpb.dac.library_web.repository;
 
 import br.ifpb.dac.library_web.entity.Author;
 import br.ifpb.dac.library_web.entity.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,4 +15,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query("SELECT b FROM Book b JOIN b.authors a WHERE a.name = ?1")
     List<Book> findBooksByAuthors(String authorName);
+
+    // Método para buscar livros pelo título com paginação
+    Page<Book> findByTitleContainingIgnoreCase(String title, Pageable pageable);
 }

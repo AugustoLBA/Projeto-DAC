@@ -72,4 +72,7 @@ public class Book implements Serializable {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Exemplary> copies;
 
+    @Column(name = "gender")
+    private String gender;
+
 }

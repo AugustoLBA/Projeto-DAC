@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Livro</title>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<!-- Menu de Navegação -->
+<nav>
+    <ul>
+        <li><a href="/livros">Lista de Livros</a></li>
+        <li><a href="/cadastrar-livro">Cadastrar Livro</a></li>
+    </ul>
+</nav>
+
 <h1>Cadastrar Livro</h1>
 <form action="#" th:action="@{/salvar-livro}" th:object="${book}" method="POST">
 
@@ -38,9 +45,7 @@
     <div>
         <label for="publisher">Editor:</label>
         <select id="publisher" th:field="*{publisher}" required>
-            <option th:each="publisher : ${publishers}"
-                    th:value="${publisher.id}"
-                    th:text="${publisher.name}"></option>
+            <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}"></option>
         </select>
     </div>
 
@@ -48,9 +53,7 @@
     <div>
         <label for="authors">Autores:</label>
         <select id="authors" th:field="*{authors}" multiple required>
-            <option th:each="author : ${authors}"
-                    th:value="${author.id}"
-                    th:text="${author.name}"></option>
+            <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.name}"></option>
         </select>
     </div>
 
@@ -58,6 +61,21 @@
     <div>
         <label for="copies">Número de Exemplares:</label>
         <input type="number" id="copies" th:field="*{copies}" min="1" required>
+    </div>
+
+    <!-- Campo para seleção de gênero -->
+    <div>
+        <label for="gender">Gender</label>
+        <select id="gender" th:field="*{gender}">
+            <option value="Fiction">Fiction</option>
+            <option value="Non-Fiction">Non-Fiction</option>
+            <option value="Science Fiction">Science Fiction</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Biography">Biography</option>
+            <option value="Mystery">Mystery</option>
+            <option value="Romance">Romance</option>
+            <option value="Historical">Historical</option>
+        </select>
     </div>
 
     <!-- Botão de Submissão -->
