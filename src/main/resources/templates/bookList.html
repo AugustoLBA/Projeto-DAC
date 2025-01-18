@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Livros</title>
+</head>
+<body>
+<!-- Menu de Navegação -->
+<nav>
+    <ul>
+        <li><a href="/livros">Lista de Livros</a></li>
+        <li><a href="/cadastrar-livro">Cadastrar Livro</a></li>
+        <li><a href="/buscar-livros">Buscar Livros</a></li>
+    </ul>
+</nav>
+
+<h1>Lista de Livros</h1>
+
+<!-- Formulário de busca -->
+<form action="#" th:action="@{/buscar-livros}" method="get">
+    <label for="title">Buscar por título:</label>
+    <input type="text" id="title" name="title" th:value="${title}">
+    <button type="submit">Buscar</button>
+</form>
+
+<!-- Tabela de livros -->
+<table>
+    <thead>
+    <tr>
+        <th>Título</th>
+        <th>ISBN</th>
+        <th>Ano de Publicação</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.title}"></td>
+        <td th:text="${book.isbn}"></td>
+        <td th:text="${book.yearPublication}"></td>
+        <td>
+            <a th:href="@{/editar-livro/{id}(id=${book.id})}">Editar</a>
+            <a th:href="@{/deletar-livro/{id}(id=${book.id})}" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Controles de paginação -->
+<div>
+        <span th:if="${currentPage > 0}">
+            <a th:href="@{/livros?page=${currentPage - 1}}">Página Anterior</a>
+        </span>
+    <span>Página <span th:text="${currentPage + 1}"></span> de <span th:text="${totalPages}"></span></span>
+    <span th:if="${currentPage < totalPages - 1}">
+            <a th:href="@{/livros?page=${currentPage + 1}}">Próxima Página</a>
+        </span>
+</div>
+
+</body>
+</html>
