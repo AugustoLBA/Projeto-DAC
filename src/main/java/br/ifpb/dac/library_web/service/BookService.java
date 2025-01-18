@@ -1,20 +1,16 @@
 package br.ifpb.dac.library_web.service;
-
-import br.ifpb.dac.library_web.dto.BookRequest;
 import br.ifpb.dac.library_web.entity.Author;
 import br.ifpb.dac.library_web.entity.Book;
 import br.ifpb.dac.library_web.exception.ResourceNotFoundException;
 import br.ifpb.dac.library_web.exception.infra.MessageKeyEnum;
-import br.ifpb.dac.library_web.mapper.BookMapper;
 import br.ifpb.dac.library_web.repository.AuthorRepository;
 import br.ifpb.dac.library_web.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
+
 
 
 @RequiredArgsConstructor

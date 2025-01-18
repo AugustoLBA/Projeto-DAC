@@ -1,5 +1,6 @@
 package br.ifpb.dac.library_web.dto;
 
+import br.ifpb.dac.library_web.entity.Exemplary;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class BookResponse {
     private Integer yearPublication;
     private Integer numberPages;
     private String publisherName;
+    private List<Exemplary> copies;
     private Map<String,Integer> chapters;
     private List<String> authorNames;
 
