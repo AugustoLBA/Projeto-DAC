@@ -93,4 +93,27 @@ public class BookController {
 
         return "bookList";
     }
+
+    @GetMapping("/find-livros")
+    public String buscarLivros(@RequestParam(value = "title", required = false) String title,
+            @RequestParam(defaultValue = "0") int page, Model model) {
+
+        // Define a paginação com tamanho de página fixo (10 itens por página, por exemplo)
+        Pageable pageable = PageRequest.of(page, 5);
+
+        // Busca os livros se o título for informado
+        if (title != null && !title.isEmpty()) {
+            Page<Book> booksPage = bookService.searchBooksByTitle(title, pageable);
+            model.addAttribute("books", booksPage.getContent());
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", booksPage.getTotalPages());
+            model.addAttribute("title", title); // Mantém o título da busca no formulário
+        }
+
+        return "findLivros"; // Nome do arquivo HTML da página de busca
+    }
+    @GetMapping("/biblioteca")
+    public String biblioteca() {
+        return "biblioteca"; // Nome do arquivo HTML da biblioteca
+    }
 }
