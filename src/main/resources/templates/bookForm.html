@@ -4,84 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Livro</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="/css/styles.css">-->
+
 </head>
 <body>
-<!-- Menu de Navegação -->
-<nav>
-    <ul>
-        <li><a href="/livros">Lista de Livros</a></li>
-        <li><a href="/cadastrar-livro">Cadastrar Livro</a></li>
-    </ul>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary justify-content-center">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/biblioteca">Home</a>
+        <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/livros">Lista de Livros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/find-livros">Buscar Livro</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>
 
-<h1>Cadastrar Livro</h1>
-<form action="#" th:action="@{/salvar-livro}" th:object="${book}" method="POST">
+<div class="container mt-5">
+    <h1 class="mb-4">Cadastrar Livro</h1>
+    <form action="#" th:action="@{/salvar-livro}" th:object="${book}" method="POST">
+        <!-- Campo oculto para ID -->
+        <input type="hidden" th:field="*{id}" />
 
-    <!-- Título -->
-    <div>
-        <label for="title">Título:</label>
-        <input type="text" id="title" th:field="*{title}" required>
-    </div>
+        <div class="row mb-3">
+            <label for="title" class="col-sm-2 col-form-label">Título:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="title" th:field="*{title}" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="isbn" class="col-sm-2 col-form-label">ISBN:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="isbn" th:field="*{isbn}" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="yearPublication" class="col-sm-2 col-form-label">Ano de Publicação:</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="yearPublication" th:field="*{yearPublication}" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="numberPages" class="col-sm-2 col-form-label">Número de Páginas:</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="numberPages" th:field="*{numberPages}" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="publisher" class="col-sm-2 col-form-label">Editor:</label>
+            <div class="col-sm-10">
+                <select class="form-select" id="publisher" th:field="*{publisher}" required>
+                    <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="authors" class="col-sm-2 col-form-label">Autores:</label>
+            <div class="col-sm-10">
+                <select class="form-select" id="authors" th:field="*{authors}" required>
+                    <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.name}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="copies" class="col-sm-2 col-form-label">Número de Exemplares:</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="copies" th:field="*{copies}" min="1" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="gender" class="col-sm-2 col-form-label">Gênero:</label>
+            <div class="col-sm-10">
+                <select class="form-select" id="gender" th:field="*{gender}">
+                    <option value="Fiction">Fiction</option>
+                    <option value="Non-Fiction">Non-Fiction</option>
+                    <option value="Science Fiction">Science Fiction</option>
+                    <option value="Fantasy">Fantasy</option>
+                    <option value="Biography">Biography</option>
+                    <option value="Mystery">Mystery</option>
+                    <option value="Romance">Romance</option>
+                    <option value="Historical">Historical</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-10 offset-sm-2">
+                <button type="submit" class="btn btn-primary">Salvar Livro</button>
+            </div>
+        </div>
+    </form>
+</div>
 
-    <!-- ISBN -->
-    <div>
-        <label for="isbn">ISBN:</label>
-        <input type="text" id="isbn" th:field="*{isbn}" required>
-    </div>
-
-    <!-- Ano de Publicação -->
-    <div>
-        <label for="yearPublication">Ano de Publicação:</label>
-        <input type="number" id="yearPublication" th:field="*{yearPublication}" required>
-    </div>
-
-    <!-- Número de Páginas -->
-    <div>
-        <label for="numberPages">Número de Páginas:</label>
-        <input type="number" id="numberPages" th:field="*{numberPages}" required>
-    </div>
-
-    <!-- Editor (Publisher) -->
-    <div>
-        <label for="publisher">Editor:</label>
-        <select id="publisher" th:field="*{publisher}" required>
-            <option th:each="publisher : ${publishers}" th:value="${publisher.id}" th:text="${publisher.name}"></option>
-        </select>
-    </div>
-
-    <!-- Autores -->
-    <div>
-        <label for="authors">Autores:</label>
-        <select id="authors" th:field="*{authors}" multiple required>
-            <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.name}"></option>
-        </select>
-    </div>
-
-    <!-- Exemplares -->
-    <div>
-        <label for="copies">Número de Exemplares:</label>
-        <input type="number" id="copies" th:field="*{copies}" min="1" required>
-    </div>
-
-    <!-- Campo para seleção de gênero -->
-    <div>
-        <label for="gender">Gender</label>
-        <select id="gender" th:field="*{gender}">
-            <option value="Fiction">Fiction</option>
-            <option value="Non-Fiction">Non-Fiction</option>
-            <option value="Science Fiction">Science Fiction</option>
-            <option value="Fantasy">Fantasy</option>
-            <option value="Biography">Biography</option>
-            <option value="Mystery">Mystery</option>
-            <option value="Romance">Romance</option>
-            <option value="Historical">Historical</option>
-        </select>
-    </div>
-
-    <!-- Botão de Submissão -->
-    <div>
-        <button type="submit">Salvar Livro</button>
-    </div>
-</form>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
