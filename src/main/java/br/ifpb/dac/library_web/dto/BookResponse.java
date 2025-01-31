@@ -1,10 +1,13 @@
 package br.ifpb.dac.library_web.dto;
 
+import br.ifpb.dac.library_web.entity.Author;
+import br.ifpb.dac.library_web.entity.Book;
 import br.ifpb.dac.library_web.entity.Exemplary;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,8 +23,19 @@ public class BookResponse {
     private Integer yearPublication;
     private Integer numberPages;
     private String publisherName;
-    private List<Exemplary> copies;
+    private Integer numberCopies;
     private Map<String,Integer> chapters;
     private List<String> authorNames;
 
+    public BookResponse(Book book) {
+        this.id = book.getId();
+        this.title = book.getTitle();
+        this.isbn = book.getIsbn();
+        this.yearPublication = book.getYearPublication();
+        this.numberPages = book.getNumberPages();
+        this.publisherName = book.getPublisher().getName();
+        this.numberCopies = book.getCopies().size();
+        this.chapters = book.getChapters();
+        //this.authorNames = book.getAuthors();
+    }
 }
