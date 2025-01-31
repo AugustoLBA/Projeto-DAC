@@ -1,8 +1,11 @@
 package br.ifpb.dac.library_web.service;
 
+import br.ifpb.dac.library_web.dto.ExemplaryRequest;
+import br.ifpb.dac.library_web.entity.Book;
 import br.ifpb.dac.library_web.entity.Exemplary;
 import br.ifpb.dac.library_web.exception.ResourceNotFoundException;
 import br.ifpb.dac.library_web.exception.infra.MessageKeyEnum;
+import br.ifpb.dac.library_web.mapper.ExemplaryMapper;
 import br.ifpb.dac.library_web.repository.ExemplaryRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +18,12 @@ import java.util.List;
 @Service
 public class ExemplaryService {
 
-    private ExemplaryRepository exemplaryRepository;
+    private final ExemplaryRepository exemplaryRepository;
+    private final BookService bookService;
 
-    public Exemplary save(@Valid Exemplary exemplary) {
+    public Exemplary save(@Valid ExemplaryRequest exemplaryRequest) {
+        Book book = bookService.findById(exemplaryRequest.getBookId());
+        Exemplary exemplary = ExemplaryMapper.toExemplary(exemplaryRequest,book);
         return exemplaryRepository.save(exemplary);
     }
 
