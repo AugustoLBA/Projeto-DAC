@@ -12,5 +12,7 @@ public class ExemplaryResponse {
 
     private Long id;
     private Integer numberExemplary;
-    private Book book;
+    private BookResponse book;
+
+
 }
