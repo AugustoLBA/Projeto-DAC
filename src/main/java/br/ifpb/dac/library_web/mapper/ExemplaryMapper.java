@@ -1,10 +1,14 @@
 package br.ifpb.dac.library_web.mapper;
 
+import br.ifpb.dac.library_web.dto.BookResponse;
 import br.ifpb.dac.library_web.dto.ExemplaryRequest;
 import br.ifpb.dac.library_web.dto.ExemplaryResponse;
 import br.ifpb.dac.library_web.entity.Book;
 import br.ifpb.dac.library_web.entity.Exemplary;
 import org.modelmapper.ModelMapper;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class ExemplaryMapper {
@@ -20,9 +24,13 @@ public class ExemplaryMapper {
         ExemplaryResponse exemplaryResponse = new ExemplaryResponse();
         exemplaryResponse.setNumberExemplary(exemplary.getNumberExemplary());
         exemplaryResponse.setId(exemplary.getId());
-        exemplaryResponse.setBook(exemplary.getBook());
+        exemplaryResponse.setBook(new BookResponse(exemplary.getBook()));
         return exemplaryResponse;
     }
 
+    public static List<ExemplaryResponse> toListExemplaryResponse(List<Exemplary> exemplaries) {
+        return exemplaries.stream().map(exemplary -> toExemplaryResponse(exemplary)).collect(Collectors.toList());
+
+    }
 
 }
