@@ -2,6 +2,7 @@ package br.ifpb.dac.library_web.controller;
 
 import br.ifpb.dac.library_web.dto.ExemplaryRequest;
 import br.ifpb.dac.library_web.dto.ExemplaryResponse;
+import br.ifpb.dac.library_web.entity.Book;
 import br.ifpb.dac.library_web.entity.Exemplary;
 import br.ifpb.dac.library_web.mapper.ExemplaryMapper;
 import br.ifpb.dac.library_web.service.ExemplaryService;
@@ -17,17 +18,17 @@ import java.util.List;
 
 
 @RequiredArgsConstructor
-@Controller
-@RequestMapping("/exemplary")
+@RestController
+@RequestMapping("v1/exemplary")
 public class ExemplaryController {
 
     private final ExemplaryService exemplaryService;
 
 
-    @PostMapping                                    //verificar stava dando erro usando o ExeplaryRequest
-    public ResponseEntity<ExemplaryResponse> saveExemplary(@Valid @RequestBody Exemplary exemplary){
+    @PostMapping
+    public ResponseEntity<ExemplaryResponse> saveExemplary(@Valid @RequestBody ExemplaryRequest exemplary){
         return ResponseEntity.status(HttpStatus.CREATED).
-                body(ExemplaryMapper.toExemplary(exemplaryService.save(exemplary));
+                body(ExemplaryMapper.toExemplaryResponse(exemplaryService.save(exemplary)));
     }
 
     @GetMapping("/{id}")
@@ -38,8 +39,8 @@ public class ExemplaryController {
 
     @GetMapping
     public ResponseEntity<List<ExemplaryResponse>> getAllExemplaries() {
-
-        return ResponseEntity.status(HttpStatus.OK).body(ExemplaryMapper.toExemplaryResponse(exemplaryService.findAllExemplaries()));
+        return ResponseEntity.status(HttpStatus.OK).
+                body(ExemplaryMapper.toListExemplaryResponse(exemplaryService.findAllExemplaries()));
     }
 
 }
