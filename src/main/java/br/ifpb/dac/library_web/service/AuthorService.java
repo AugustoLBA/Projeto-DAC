@@ -6,6 +6,8 @@ import br.ifpb.dac.library_web.repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AuthorService {
@@ -14,5 +16,8 @@ public class AuthorService {
 
     public Author getByid(Long id){
         return authorRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Author com id nao encontrado"));
+    }
+    public Author save(Author author){
+        return authorRepository.save(author);
     }
 }
