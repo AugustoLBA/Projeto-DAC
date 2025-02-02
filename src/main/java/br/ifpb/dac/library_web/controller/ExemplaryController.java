@@ -32,15 +32,21 @@ public class ExemplaryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ExemplaryResponse> getExemplaryById(@PathVariable Long id){
+    public ResponseEntity<ExemplaryResponse> findExemplaryById(@PathVariable Long id){
         ExemplaryResponse response = ExemplaryMapper.toExemplaryResponse(exemplaryService.findExemplaryById(id));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<ExemplaryResponse>> getAllExemplaries() {
+    public ResponseEntity<List<ExemplaryResponse>> findAllExemplaries() {
         return ResponseEntity.status(HttpStatus.OK).
                 body(ExemplaryMapper.toListExemplaryResponse(exemplaryService.findAllExemplaries()));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteExemplaryById(@PathVariable Long id) {
+        exemplaryService.deleteExemplaryById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

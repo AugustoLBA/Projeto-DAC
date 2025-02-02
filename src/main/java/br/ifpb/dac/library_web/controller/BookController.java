@@ -3,7 +3,6 @@ package br.ifpb.dac.library_web.controller;
 
 import br.ifpb.dac.library_web.dto.BookRequest;
 import br.ifpb.dac.library_web.dto.BookResponse;
-import br.ifpb.dac.library_web.entity.Book;
 import br.ifpb.dac.library_web.mapper.BookMapper;
 import br.ifpb.dac.library_web.service.BookService;
 import jakarta.validation.Valid;
