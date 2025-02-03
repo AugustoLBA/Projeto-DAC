@@ -16,7 +16,9 @@ public enum MessageKeyEnum {
     THE_EMAIL_FORMAT_IS_INVALID("The e-mail format is invalid"),
     BOOK_NOT_FOUND_WITH_ID("Book not found with ID:"),
     BOOK_NOT_FOUND_WITH_TITLE("Book not found with title:"),
-    EXEMPLARY_NOT_FOUND_WITH_ID("Exemplary not found with ID:");
+    EXEMPLARY_NOT_FOUND_WITH_ID("Exemplary not found with ID:"),
+    AUTHOR_WITH_ID_NOT_FOUND("Author with id not found:"),
+    PUBLISHER_WITH_ID_NOT_FOUND("Publisher with id not found:");;
 
     private String message;
 
