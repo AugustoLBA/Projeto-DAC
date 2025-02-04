@@ -1,6 +1,7 @@
 package br.ifpb.dac.library_web.service;
 
 import br.ifpb.dac.library_web.entity.Book;
+import br.ifpb.dac.library_web.entity.Exemplary;
 import br.ifpb.dac.library_web.exception.ResourceNotFoundException;
 import br.ifpb.dac.library_web.exception.infra.MessageKeyEnum;
 import br.ifpb.dac.library_web.mapper.BookMapper;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,9 +20,25 @@ import java.util.List;
 @Service
 public class BookService {
     private final BookRepository bookRepository;
+    private final ExemplaryService exemplaryService;
 
-    public Book save(Book book) {
-        return bookRepository.save(book);
+    public Book save(Book book, int copies) {
+        List<Exemplary> list = new ArrayList<>();
+
+        if(book.getId() == null) {
+            list = exemplaryService.saveAll(book, copies);
+            book.setCopies(list);
+            return bookRepository.save(book);
+        }else {
+            list = exemplaryService.findAllById(book.getId());
+            if(copies < list.size()){
+                exemplaryService.deleteAll(book.getId(),(list.size() - copies));
+            }
+            if(copies > list.size()){
+                exemplaryService.saveAll(book, (copies - list.size()));
+            }
+            return bookRepository.save(book);
+        }
     }
 
     public Book findById(Long id) {

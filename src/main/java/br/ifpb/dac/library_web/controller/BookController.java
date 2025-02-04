@@ -4,6 +4,7 @@ import br.ifpb.dac.library_web.entity.Author;
 import br.ifpb.dac.library_web.entity.Publisher;
 import br.ifpb.dac.library_web.entity.Book;
 import br.ifpb.dac.library_web.service.AuthorService;
+import br.ifpb.dac.library_web.service.ExemplaryService;
 import br.ifpb.dac.library_web.service.PublisherService;
 import br.ifpb.dac.library_web.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class BookController {
     private final BookService bookService;
     private final AuthorService authorService;
     private final PublisherService publisherService;
+    private final ExemplaryService exemplaryService;
 
     // Lista de gêneros predefinidos
     private static final List<String> GENRES = Arrays.asList(
@@ -44,8 +46,8 @@ public class BookController {
     }
 
     @PostMapping("/salvar-livro")
-    public String saveBook(@ModelAttribute("book") Book book) {
-        bookService.save(book);
+    public String saveBook(@ModelAttribute("book") Book book, @RequestParam("copies") int copies) {
+        bookService.save(book, copies);
         return "redirect:/livros";
     }
 
@@ -61,16 +63,25 @@ public class BookController {
         return "bookList";
     }
 
+
     @GetMapping("/editar-livro/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
+        // Recuperar o livro com base no ID
         Book book = bookService.findById(id);
+
+        // Recuperar o número de exemplares para o livro
+        int copies = exemplaryService.findAllById(id).size();  // Chama o método para obter a quantidade de exemplares
+
+        // Listas de autores e editores para o formulário
         List<Author> authors = authorService.getAllAuthors();
         List<Publisher> publishers = publisherService.getAllPublishers();
 
+        // Passar o livro, os autores, os editores e o número de exemplares para o modelo
         model.addAttribute("book", book);
         model.addAttribute("authors", authors);
         model.addAttribute("publishers", publishers);
-        model.addAttribute("genres", GENRES); // Passa a lista de gêneros para o modelo
+        model.addAttribute("genres", GENRES);
+        model.addAttribute("copies", copies);  // Passando o número de exemplares para o modelo
 
         return "bookForm";
     }

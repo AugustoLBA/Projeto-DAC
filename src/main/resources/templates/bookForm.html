@@ -79,7 +79,9 @@
         <div class="row mb-3">
             <label for="copies" class="col-sm-2 col-form-label">Número de Exemplares:</label>
             <div class="col-sm-10">
-                <input type="number" class="form-control" id="copies" th:field="*{copies}" min="1" required>
+                <!-- Tornando o campo editável. O valor do número de exemplares é passado do controlador -->
+                <input type="number" class="form-control" id="copies" name="copies"
+                       th:value="${copies}" min="1" required>
             </div>
         </div>
         <div class="row mb-3">
