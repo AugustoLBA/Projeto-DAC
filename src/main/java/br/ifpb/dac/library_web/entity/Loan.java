@@ -36,6 +36,7 @@ public class Loan implements Serializable {
     private LocalDateTime loanEndDate;
 
     @NotNull(message = "the loan_status field cannot be empty")
+    @Enumerated(EnumType.STRING)
     @Column(name = "loan_status")
     private LoanStatus loanStatus;
 

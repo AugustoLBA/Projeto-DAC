@@ -20,7 +20,7 @@ import java.util.List;
 public class Contract implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -43,7 +43,7 @@ public class Contract implements Serializable {
     @JoinColumn(name = "id_user")
     private User user;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_library")
     private Library library;
 
