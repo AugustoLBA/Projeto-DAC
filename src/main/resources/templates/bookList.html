@@ -67,14 +67,17 @@
     <!-- Controles de paginação -->
     <nav>
         <ul class="pagination justify-content-center">
+            <!-- Página Anterior -->
             <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                <a class="page-link" th:href="@{/livros?page=${currentPage - 1}}" aria-label="Página Anterior">Anterior</a>
+                <a class="page-link" th:href="@{/livros?page={page}(page=${currentPage > 0 ? currentPage - 1 : 0})}" aria-label="Página Anterior">Anterior</a>
             </li>
+            <!-- Exibe número da página atual -->
             <li class="page-item disabled">
                 <span class="page-link">Página <span th:text="${currentPage + 1}"></span> de <span th:text="${totalPages}"></span></span>
             </li>
+            <!-- Próxima Página -->
             <li class="page-item" th:classappend="${currentPage >= totalPages - 1} ? 'disabled'">
-                <a class="page-link" th:href="@{/livros?page=${currentPage + 1}}" aria-label="Próxima Página">Próxima</a>
+                <a class="page-link" th:href="@{/livros?page={page}(page=${currentPage + 1})}" aria-label="Próxima Página">Próxima</a>
             </li>
         </ul>
     </nav>

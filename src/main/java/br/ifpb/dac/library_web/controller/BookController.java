@@ -27,8 +27,9 @@ public class BookController {
 
     // Lista de gêneros predefinidos
     private static final List<String> GENRES = Arrays.asList(
-            "Fiction", "Non-Fiction", "Science Fiction", "Fantasy",
-            "Biography", "Mystery", "Romance", "Historical");
+            "Ficção", "Ficção Científica", "Fantasia",
+            "Biografia", "Mistério", "Romance", "Histórico");
+
 
     @GetMapping("/cadastrar-livro")
     public String showBookForm(Model model) {

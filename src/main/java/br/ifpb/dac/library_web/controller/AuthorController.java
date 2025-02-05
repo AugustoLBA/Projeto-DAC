@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/authors")
 @RequiredArgsConstructor
 public class AuthorController {
-    private  final AuthorService authorService;
+    private final AuthorService authorService;
 
     @PostMapping("/save")
-    public void save(Author author){
+    public void save(Author author) {
         author.setName("Suasuna");
         authorService.saveAuthor(author);
     }

@@ -69,7 +69,7 @@ public class Book implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "author_id"))  // Coluna que faz referência à tabela Author
         private List<Author> authors;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "book", cascade = CascadeType.PERSIST)
     private List<Exemplary> copies;
 
     @Column(name = "gender")
