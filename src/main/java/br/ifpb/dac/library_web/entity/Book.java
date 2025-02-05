@@ -36,7 +36,7 @@ import java.util.Set;
 @Table(name = "tb_books")
 public class Book implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
