@@ -52,7 +52,7 @@ public class BookMapper {
         return mapper.map(book, BookResponse.class);*/
 
         BookResponse bookResponse = new BookResponse();
-        bookResponse.setId(bookResponse.getId());
+        bookResponse.setId(book.getId());
         bookResponse.setTitle(book.getTitle());
         bookResponse.setIsbn(book.getIsbn());
         bookResponse.setChapters(book.getChapters());
