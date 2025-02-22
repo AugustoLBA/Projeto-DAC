@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,9 +22,11 @@ public class BookResponse {
     private Integer yearPublication;
     private Integer numberPages;
     private String publisherName;
-    private Integer numberCopies;
+    private List<Exemplary> numberCopies;
     private Map<String,Integer> chapters;
-    private List<String> authorNames;
+    private List<Author> authorNames;
+    private String gender;
+
 
     public BookResponse(Book book) {
         this.id = book.getId();
@@ -34,8 +35,10 @@ public class BookResponse {
         this.yearPublication = book.getYearPublication();
         this.numberPages = book.getNumberPages();
         this.publisherName = book.getPublisher().getName();
-        this.numberCopies = book.getCopies().size();
+        this.numberCopies = book.getNumberCopies();
         this.chapters = book.getChapters();
-        //this.authorNames = book.getAuthors();
+        this.authorNames = book.getAuthors();
+        this.gender = book.getGender();
+
     }
 }

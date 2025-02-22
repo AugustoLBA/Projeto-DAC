@@ -1,5 +1,6 @@
 package br.ifpb.dac.library_web.dto;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -26,8 +27,12 @@ public class BookRequest {
     @NotNull(message = "The field number pages cannot be empty")
     private Integer numberPages;
 
-    @NotBlank(message = "The PublisherName cannot be empty")
-    private String publisherName;
+    @NotNull(message = "The PublisherName cannot be empty")
+    private Long publisherId;
+
+    @NotNull
+    @Min(value = 1, message = "There must be at least one author")
+    private Integer numberCopies;
 
     @NotNull
     @Size(min = 1, message = "There must be at least one author")
@@ -35,4 +40,7 @@ public class BookRequest {
 
     @NotNull(message = "Chapters cannot be null")
     private Map<String,Integer> chapters;
+
+    @NotBlank(message = "The book must have a genre")
+    private String gender;
 }
