@@ -23,7 +23,7 @@ public class BookController {
     @PostMapping
     public ResponseEntity<BookResponse> save(@Valid @RequestBody BookRequest book) {
         return ResponseEntity.status(HttpStatus.CREATED).
-                body(BookMapper.toBookResponse(bookService.save(BookMapper.toBook(book),book.getAuthorIds())));
+                body(BookMapper.toBookResponse(bookService.save(BookMapper.toBook(book),book.getAuthorIds(), book.getPublisherId(), book.getNumberCopies())));
     }
 
     @GetMapping("/{id}")
