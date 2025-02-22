@@ -1,5 +1,6 @@
 package br.ifpb.dac.library_web.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ public class Author implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "authors")  // "mappedBy" faz referência ao atributo "authors" na classe Book
     private List<Book> books;
 

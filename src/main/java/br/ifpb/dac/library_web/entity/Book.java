@@ -1,5 +1,8 @@
 package br.ifpb.dac.library_web.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -55,7 +58,7 @@ public class Book implements Serializable {
     @ElementCollection
     @CollectionTable(name = "tb_chapters", joinColumns = @JoinColumn(name = "book_id"))
     @MapKeyColumn(name = "title") // Define o nome da coluna que vai armazenar as chaves do mapa
-    @NotNull(message = "The number chapters field cannot be empty")
+    //@NotNull(message = "The number chapters field cannot be empty")
     @Column(name = "number_chapters") // Define o nome da coluna que vai armazenar os valores do mapa
     private Map<String, Integer> chapters;
 
@@ -63,18 +66,24 @@ public class Book implements Serializable {
     @Column(name = "number_pages")
     private Integer numberPages;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 
 
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "tb_book_author",  // Nome da tabela de junção
             joinColumns = @JoinColumn(name = "book_id"),  // Coluna que faz referência à tabela Book
             inverseJoinColumns = @JoinColumn(name = "author_id"))  // Coluna que faz referência à tabela Author
         private List<Author> authors;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Exemplary> copies;
+    private List<Exemplary> numberCopies;
+
+    @Column(name = "gender")
+    private String gender;
 
 }
