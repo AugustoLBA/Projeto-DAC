@@ -1,5 +1,6 @@
 package br.ifpb.dac.library_web.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -27,5 +28,6 @@ public class Publisher implements Serializable {
 
     // Relacionamento OneToMany: Uma editora pode ter vários livros.
     @OneToMany(mappedBy = "publisher",cascade = CascadeType.ALL, orphanRemoval = true)  // mappedBy define o lado inverso da relação
+    @JsonIgnore
     private List<Book> books;
 }

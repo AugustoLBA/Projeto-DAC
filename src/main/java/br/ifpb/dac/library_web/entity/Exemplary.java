@@ -1,5 +1,7 @@
 package br.ifpb.dac.library_web.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -34,10 +36,12 @@ public class Exemplary implements Serializable {
     @Column(name = "num_copies")
     private int numberExemplary;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "exemplary", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Survey> surveys; // Lista de vistorias associadas
 
