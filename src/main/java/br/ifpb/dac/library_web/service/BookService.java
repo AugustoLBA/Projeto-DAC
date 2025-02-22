@@ -1,6 +1,8 @@
 package br.ifpb.dac.library_web.service;
 import br.ifpb.dac.library_web.entity.Author;
 import br.ifpb.dac.library_web.entity.Book;
+import br.ifpb.dac.library_web.entity.Exemplary;
+import br.ifpb.dac.library_web.entity.Publisher;
 import br.ifpb.dac.library_web.exception.ResourceNotFoundException;
 import br.ifpb.dac.library_web.exception.infra.MessageKeyEnum;
 import br.ifpb.dac.library_web.repository.AuthorRepository;
@@ -18,9 +20,9 @@ import java.util.Objects;
 public class BookService {
     private final BookRepository bookRepository;
     private final AuthorService authorService;
-    private final AuthorRepository authorRepository;
+    private final PublisherService publisherService;
 
-    public Book save(Book book, List <Long> authorIds ) {
+    public Book save(Book book, List <Long> authorIds,Long publisherId, int numberOfCopies) {
 
         if (authorIds != null) {
             if (authorIds.stream().anyMatch(Objects::isNull)) {
@@ -31,6 +33,19 @@ public class BookService {
         for (Long id : authorIds) {
             authors.add(authorService.getByid(id));
         }
+        Publisher publisher = publisherService.findById(publisherId);  // Método para buscar editor por ID
+
+
+        List<Exemplary> copies = new ArrayList<>();
+        for (int i = 0; i < numberOfCopies; i++) {
+            Exemplary exemplary = new Exemplary();
+            exemplary.setNumberExemplary(exemplary.getNumberExemplary()+1);
+            exemplary.setBook(book);
+            copies.add(exemplary);
+        }
+
+        book.setPublisher(publisher);
+        book.setNumberCopies(copies);
         book.setAuthors(authors);
         return bookRepository.save(book);
     }
