@@ -1,4 +1,5 @@
 package br.ifpb.dac.library_web.service;
+import br.ifpb.dac.library_web.dto.BookUpdateRequest;
 import br.ifpb.dac.library_web.entity.Author;
 import br.ifpb.dac.library_web.entity.Book;
 import br.ifpb.dac.library_web.entity.Exemplary;
@@ -7,7 +8,10 @@ import br.ifpb.dac.library_web.exception.ResourceNotFoundException;
 import br.ifpb.dac.library_web.exception.infra.MessageKeyEnum;
 import br.ifpb.dac.library_web.repository.AuthorRepository;
 import br.ifpb.dac.library_web.repository.BookRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +25,8 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AuthorService authorService;
     private final PublisherService publisherService;
+    @Lazy
+    private  ExemplaryService exemplaryService;
 
     public Book save(Book book, List <Long> authorIds,Long publisherId, int numberOfCopies) {
 
@@ -39,7 +45,7 @@ public class BookService {
         List<Exemplary> copies = new ArrayList<>();
         for (int i = 0; i < numberOfCopies; i++) {
             Exemplary exemplary = new Exemplary();
-            exemplary.setNumberExemplary(exemplary.getNumberExemplary()+1);
+//            exemplary.setNumberExemplary(exemplary.getNumberExemplary()+1);
             exemplary.setBook(book);
             copies.add(exemplary);
         }
@@ -74,5 +80,44 @@ public class BookService {
     public List<Book> findBooksByAuthors(String authorName){
         return bookRepository.findBooksByAuthors(authorName);
     }
+    @Transactional
+    public Book updateBook(Long id, BookUpdateRequest bookUpdateRequest) {
+        Book book = findById(id);
 
+        //Logica dos autores caso adicione ou remova
+        List<Author> authors = new ArrayList<>();
+        bookUpdateRequest.getAuthorIds().forEach( author -> authors.add(authorService.getByid(author)));
+        book.getAuthors().removeIf(existingAuthor -> !bookUpdateRequest.getAuthorIds().contains(existingAuthor.getId()));
+        book.setAuthors(authors);
+
+        book.setTitle(bookUpdateRequest.getTitle());
+        book.setYearPublication(bookUpdateRequest.getYearPublication());
+        book.setPublisher(publisherService.findById(bookUpdateRequest.getPublisherId()));
+        book.setGender(bookUpdateRequest.getGender());
+        book.setNumberPages(bookUpdateRequest.getNumberPages());
+
+        //Logica dos capitulos caso ele remova ou adicione
+        book.setChapters(bookUpdateRequest.getChapters());
+
+        // Logica dos exemplares caso adicione ou remova
+        int currentCopies = book.getNumberCopies().size();
+        int requestedCopies = bookUpdateRequest.getNumberCopies();
+
+        if (requestedCopies > currentCopies) {
+            // Adicionando exemplares
+            int newCopies = requestedCopies - currentCopies;
+            for (int i = 0; i < newCopies; i++) {
+                Exemplary exemplary = Exemplary.builder().book(book).build();
+                book.getNumberCopies().add(exemplary);
+            }
+        } else if (requestedCopies < currentCopies) {
+            // Removendo exemplares
+            int copiesToRemove = currentCopies - requestedCopies;
+            for (int i = 0; i < copiesToRemove; i++) {
+                Exemplary exemplary = book.getNumberCopies().remove(0);
+                exemplaryService.deleteExemplaryById(exemplary.getId());
+            }
+        }
+        return book;
+    }
 }

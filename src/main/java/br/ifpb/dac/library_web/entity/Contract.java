@@ -47,7 +47,7 @@ public class Contract implements Serializable {
     @JoinColumn(name = "id_library")
     private Library library;
 
-    @OneToMany(mappedBy = "contract")
+    @OneToMany(mappedBy = "contract",fetch = FetchType.EAGER)
     private List<ContractClause> clause;
 
     @PrePersist

@@ -27,7 +27,7 @@ public class Publisher implements Serializable {
     private String name;
 
     // Relacionamento OneToMany: Uma editora pode ter vários livros.
-    @OneToMany(mappedBy = "publisher",cascade = CascadeType.ALL, orphanRemoval = true)  // mappedBy define o lado inverso da relação
+    @OneToMany(mappedBy = "publisher",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)  // mappedBy define o lado inverso da relação
     @JsonIgnore
     private List<Book> books;
 }

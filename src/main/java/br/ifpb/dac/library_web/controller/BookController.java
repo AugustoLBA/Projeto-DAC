@@ -3,6 +3,7 @@ package br.ifpb.dac.library_web.controller;
 
 import br.ifpb.dac.library_web.dto.BookRequest;
 import br.ifpb.dac.library_web.dto.BookResponse;
+import br.ifpb.dac.library_web.dto.BookUpdateRequest;
 import br.ifpb.dac.library_web.mapper.BookMapper;
 import br.ifpb.dac.library_web.service.BookService;
 import jakarta.validation.Valid;
@@ -52,6 +53,10 @@ public class BookController {
     public ResponseEntity<Void> deleteBookById(@PathVariable("id") Long id) {
         bookService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<BookResponse> updateBook(@PathVariable("id") Long id,@Valid @RequestBody BookUpdateRequest bookUpdateRequest){
+        return ResponseEntity.status(HttpStatus.OK).body(BookMapper.toBookResponse(bookService.updateBook(id, bookUpdateRequest)));
     }
 
 }

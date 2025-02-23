@@ -22,7 +22,7 @@ public class ExemplaryMapper {
     }
     public static ExemplaryResponse toExemplaryResponse(Exemplary exemplary) {
         ExemplaryResponse exemplaryResponse = new ExemplaryResponse();
-        exemplaryResponse.setNumberExemplary(exemplary.getNumberExemplary());
+//        exemplaryResponse.setNumberExemplary(exemplary.getNumberExemplary());
         exemplaryResponse.setId(exemplary.getId());
         exemplaryResponse.setBook(new BookResponse(exemplary.getBook()));
         return exemplaryResponse;
