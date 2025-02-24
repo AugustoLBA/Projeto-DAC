@@ -92,7 +92,9 @@ public class BookService {
 
         book.setTitle(bookUpdateRequest.getTitle());
         book.setYearPublication(bookUpdateRequest.getYearPublication());
-        book.setPublisher(publisherService.findById(bookUpdateRequest.getPublisherId()));
+        Publisher publisher = publisherService.findById(bookUpdateRequest.getPublisherId());
+        publisher.getBooks().add(book);
+        book.setPublisher(publisher);
         book.setGender(bookUpdateRequest.getGender());
         book.setNumberPages(bookUpdateRequest.getNumberPages());
 
