@@ -8,6 +8,7 @@ import br.ifpb.dac.library_web.exception.ResourceNotFoundException;
 import br.ifpb.dac.library_web.exception.infra.MessageKeyEnum;
 import br.ifpb.dac.library_web.repository.AuthorRepository;
 import br.ifpb.dac.library_web.repository.BookRepository;
+import br.ifpb.dac.library_web.repository.PublisherRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AuthorService authorService;
     private final PublisherService publisherService;
+
+    @Autowired
     @Lazy
     private  ExemplaryService exemplaryService;
 
@@ -65,11 +68,33 @@ public class BookService {
         return bookRepository.findAll();
     }
 
+    @Transactional
     public void deleteById(Long id) {
-        if(!bookRepository.existsById(id)) {
+
+        if (!bookRepository.existsById(id)) {
             throw new ResourceNotFoundException(MessageKeyEnum.BOOK_NOT_FOUND_WITH_ID.getMessage(id));
         }
-        bookRepository.deleteById(id);
+
+        // Remover associações na tabela intermediária antes de excluir o livro
+        Book book = bookRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException(MessageKeyEnum.BOOK_NOT_FOUND_WITH_ID.getMessage(id))
+        );
+        // Remover associações antes de excluir o livro
+
+        // Remover o livro da editora
+        Publisher publisher = book.getPublisher();
+        if (publisher != null) {
+            publisher.getBooks().remove(book); // Remove o livro da lista de livros da editora
+        }
+
+        // Remover as associações antes de excluir o livro
+        book.getAuthors().clear(); // Remove os autores associados
+        book.getNumberCopies().clear(); // Remove as cópias associadas
+
+        // Excluir o livro
+        bookRepository.delete(book); // Exclui o livro diretamente
+
+
     }
 
     public Book findByTitle(String title) {
@@ -116,10 +141,11 @@ public class BookService {
             // Removendo exemplares
             int copiesToRemove = currentCopies - requestedCopies;
             for (int i = 0; i < copiesToRemove; i++) {
-                Exemplary exemplary = book.getNumberCopies().remove(0);
-                exemplaryService.deleteExemplaryById(exemplary.getId());
+                Exemplary exemplaryToRemove = book.getNumberCopies().get(0);  // Obter o primeiro exemplar
+                book.getNumberCopies().remove(0);
             }
         }
+        book.setNumberCopies(book.getNumberCopies());
         return book;
     }
 }
