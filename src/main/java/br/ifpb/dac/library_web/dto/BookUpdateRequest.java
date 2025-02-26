@@ -4,19 +4,18 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;
-
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class BookRequest {
-
-    @NotBlank(message = "The isbn field cannot be empty")
-    private String isbn;
+@NoArgsConstructor
+public class BookUpdateRequest {
 
     @NotBlank(message = "The title field cannot be empty")
     private String title;
@@ -43,4 +42,5 @@ public class BookRequest {
 
     @NotBlank(message = "The book must have a genre")
     private String gender;
+
 }

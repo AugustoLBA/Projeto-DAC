@@ -1,5 +1,6 @@
 package br.ifpb.dac.library_web.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -20,7 +22,7 @@ import java.util.Set;
 public class Author implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -28,7 +30,8 @@ public class Author implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "authors")  // "mappedBy" faz referência ao atributo "authors" na classe Book
-    private Set<Book> books;
+    private List<Book> books;
 
 }

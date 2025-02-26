@@ -1,8 +1,11 @@
 package br.ifpb.dac.library_web.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,21 +27,20 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "tb_copies")
+@Builder
 public class Exemplary implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @NotNull(message = "number of copies cannot be zero")
-    @Column(name = "num_copies")
-    private int numberExemplary;
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @OneToMany(mappedBy = "exemplary", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    @OneToMany(mappedBy = "exemplary", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Survey> surveys; // Lista de vistorias associadas
 
     @OneToOne(mappedBy = "exemplary", cascade = CascadeType.ALL, orphanRemoval = true)

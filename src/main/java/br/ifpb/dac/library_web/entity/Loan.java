@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 public class Loan implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -36,6 +36,7 @@ public class Loan implements Serializable {
     private LocalDateTime loanEndDate;
 
     @NotNull(message = "the loan_status field cannot be empty")
+    @Enumerated(EnumType.STRING)
     @Column(name = "loan_status")
     private LoanStatus loanStatus;
 

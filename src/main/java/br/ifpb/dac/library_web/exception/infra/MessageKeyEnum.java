@@ -15,7 +15,15 @@ public enum MessageKeyEnum {
     THE_TYPER_USER_CANNOT_BE_EMPTY("The typer user cannot be empty"),
     THE_EMAIL_FORMAT_IS_INVALID("The e-mail format is invalid"),
     BOOK_NOT_FOUND_WITH_ID("Book not found with ID:"),
-    BOOK_NOT_FOUND_WITH_TITLE("Book not found with title:");
+    BOOK_NOT_FOUND_WITH_TITLE("Book not found with title:"),
+    EXEMPLARY_NOT_FOUND_WITH_ID("Exemplary not found with ID:"),
+    AUTHOR_WITH_ID_NOT_FOUND("Author with id not found:"),
+    PUBLISHER_WITH_ID_NOT_FOUND("Publisher with id not found:"),
+    ADDRESS_NOT_FOUND_WITH_ID("Address with id not found:"),
+    CONTRACT_NOT_FOUND_WITH_ID("Contract with id not found:"),
+    LIBRARY_NOT_FOUND_WITH_ID("Library with id not found:"),
+    ONE_OR_MORE_CLAUSES_NOT_FOUND("One or more clauses not found:");
+
 
     private String message;
 

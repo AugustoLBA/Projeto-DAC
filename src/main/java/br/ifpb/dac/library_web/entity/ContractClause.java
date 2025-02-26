@@ -18,11 +18,11 @@ import java.math.BigDecimal;
 public class ContractClause implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @NotBlank(message = "The description field cannot be empty")
+    @NotNull(message = "The description field cannot be empty")
     @Column(name = "description")
     private String description;
 
@@ -32,12 +32,6 @@ public class ContractClause implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "contract_id")
-    @NotBlank(message = "The field contract cannot be empty")
+    @NotNull(message = "The field contract cannot be empty")
     private Contract contract;
-
-
-
-
-
-
 }

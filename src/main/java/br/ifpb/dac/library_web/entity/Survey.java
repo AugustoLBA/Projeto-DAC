@@ -25,15 +25,16 @@ import java.util.Date;
 public class Survey implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
     @Column(name = "date_performed")
     private LocalDateTime date_performed;
 
-    @NotBlank(message = "Status cannot be empty")
+    @NotNull(message = "Status cannot be empty")
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private StatusSurvey statusSurvey;//definir enum para o status da vistoria
 
     @ManyToOne
