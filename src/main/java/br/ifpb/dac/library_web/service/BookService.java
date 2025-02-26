@@ -27,9 +27,6 @@ public class BookService {
     private final AuthorService authorService;
     private final PublisherService publisherService;
 
-    @Autowired
-    @Lazy
-    private  ExemplaryService exemplaryService;
 
     public Book save(Book book, List <Long> authorIds,Long publisherId, int numberOfCopies) {
 
