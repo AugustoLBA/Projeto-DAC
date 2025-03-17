@@ -67,20 +67,21 @@ public class Book implements Serializable {
     private Integer numberPages;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(name = "tb_book_author",  // Nome da tabela de junção
             joinColumns = @JoinColumn(name = "book_id"),  // Coluna que faz referência à tabela Book
             inverseJoinColumns = @JoinColumn(name = "author_id"))  // Coluna que faz referência à tabela Author
         private List<Author> authors;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "book", //cascade = CascadeType.ALL,
+            orphanRemoval = true,fetch = FetchType.LAZY)
     private List<Exemplary> numberCopies;
 
     @Column(name = "gender")

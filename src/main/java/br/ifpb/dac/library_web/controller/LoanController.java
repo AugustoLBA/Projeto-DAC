@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("v1/loans")
@@ -42,5 +43,15 @@ public class LoanController {
     @PutMapping("/{id}")
     public ResponseEntity<LoanResponse> update(@PathVariable Long id,@Valid @RequestBody LoanRequest loanRequest) {
         return ResponseEntity.ok(LoanMapper.toResponse(loanService.update(id,loanRequest)));
+    }
+    @PutMapping("/{id}/renew")
+    public ResponseEntity<LoanResponse> renewLoan(@PathVariable("id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(LoanMapper.toResponse(loanService.renewLoan(id)));
+
+    }
+    @PostMapping("/mark-overdue")
+    public ResponseEntity<Void> markOverdueLoans() {
+        loanService.markOverdueLoans();
+        return ResponseEntity.ok().build();
     }
 }

@@ -40,6 +40,9 @@ public class Loan implements Serializable {
     @Column(name = "loan_status")
     private LoanStatus loanStatus;
 
+    @Column(name = "renewal_count")
+    private Integer renewalCount = 0;
+
     @OneToOne
     @JoinColumn(name = "exemplary_id") // Define a chave estrangeira para Exemplary
     private Exemplary exemplary;
@@ -53,4 +56,5 @@ public class Loan implements Serializable {
         final LocalDateTime current = LocalDateTime.now();
         loanInitialDate = current;
     }
+
 }
