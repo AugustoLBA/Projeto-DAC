@@ -28,7 +28,7 @@ public class User implements Serializable {
     private String name;
 
     @NotBlank(message = "Email cannot be empty")
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @NotBlank(message = "Password cannot be empty")
