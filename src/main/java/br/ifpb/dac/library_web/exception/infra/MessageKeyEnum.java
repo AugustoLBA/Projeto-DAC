@@ -1,5 +1,6 @@
 package br.ifpb.dac.library_web.exception.infra;
 
+import br.ifpb.dac.library_web.exception.PasswordInvalidException;
 import lombok.Getter;
 
 @Getter
@@ -22,7 +23,9 @@ public enum MessageKeyEnum {
     ADDRESS_NOT_FOUND_WITH_ID("Address with id not found:"),
     CONTRACT_NOT_FOUND_WITH_ID("Contract with id not found:"),
     LIBRARY_NOT_FOUND_WITH_ID("Library with id not found:"),
-    ONE_OR_MORE_CLAUSES_NOT_FOUND("One or more clauses not found:");
+    ONE_OR_MORE_CLAUSES_NOT_FOUND("One or more clauses not found:"),
+    USER_NOT_FOUND_WITH_THE_NAME("User not found with the NAME:"),
+    PASSWORD_INVALID("Password Invalid");
 
 
     private String message;
