@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -45,10 +46,11 @@ public class BookController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN') OR hasAnyRole('USER')")
     public ResponseEntity<List<BookResponse>> findAllBookBy() {
         return ResponseEntity.status(HttpStatus.OK).body(BookMapper.toListBookResponse(bookService.findAllBooks()));
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBookById(@PathVariable("id") Long id) {
         bookService.deleteById(id);

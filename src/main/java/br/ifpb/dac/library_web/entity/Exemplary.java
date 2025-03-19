@@ -35,14 +35,18 @@ public class Exemplary implements Serializable {
     private Long id;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "exemplary", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "exemplary", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Survey> surveys; // Lista de vistorias associadas
 
-    @OneToOne(mappedBy = "exemplary", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    @OneToOne(mappedBy = "exemplary", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private Loan loan;
+
+    @Column(name = "is_active")
+    private Boolean isActive = true;
 }
