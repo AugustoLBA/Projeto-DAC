@@ -46,12 +46,11 @@ public class BookController {
 
 
     @GetMapping
-//    @PreAuthorize("hasAnyRole('ADMIN')")
     @PreAuthorize("hasAnyRole('ADMIN') OR hasAnyRole('USER')")
     public ResponseEntity<List<BookResponse>> findAllBookBy() {
         return ResponseEntity.status(HttpStatus.OK).body(BookMapper.toListBookResponse(bookService.findAllBooks()));
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBookById(@PathVariable("id") Long id) {
         bookService.deleteById(id);

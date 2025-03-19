@@ -16,6 +16,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import static br.ifpb.dac.library_web.util.Constants.ADMIN;
+import static br.ifpb.dac.library_web.util.Constants.USER;
+
 @EnableMethodSecurity
 @EnableWebMvc
 @Configuration
@@ -45,11 +48,12 @@ public class SpringSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
+                .cors().and()
                 .csrf(csrf -> csrf.disable())
                 .formLogin(form -> form.disable())
                 .httpBasic(basic -> basic.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // 🚀 Libera o acesso ao Swagger e seus arquivos estáticos
+                        // Libera o acesso ao Swagger e seus arquivos estáticos
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
@@ -59,12 +63,19 @@ public class SpringSecurityConfig {
                         ).permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/user").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/auth").permitAll()
+                        .requestMatchers(HttpMethod.GET,  "/v1/user").hasRole(ADMIN)
+                        .requestMatchers(HttpMethod.PUT,  "/v1/").hasRole(ADMIN)
+                        .requestMatchers(HttpMethod.GET,  "/v1/book").hasAnyRole(ADMIN,USER)
+                        .requestMatchers(HttpMethod.GET,  "/v1/author").hasAnyRole(ADMIN,USER)
+                        .requestMatchers(HttpMethod.GET,  "/v1/publisher").hasAnyRole(ADMIN,USER)
+                        .requestMatchers(HttpMethod.POST,  "/v1/**").hasRole(ADMIN)
                         .anyRequest().authenticated()
-                ).sessionManagement(
-                        sesseion -> sesseion.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                ).addFilterBefore(
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Corrigido
+                .addFilterBefore(
                         jwtAuthorizationFilter(),
-                        UsernamePasswordAuthenticationFilter.class)
+                        UsernamePasswordAuthenticationFilter.class
+                )
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint()))
                 .build();
@@ -92,4 +103,6 @@ public class SpringSecurityConfig {
          */
         return authenticationConfiguration.getAuthenticationManager();
     }
+
+
 }
